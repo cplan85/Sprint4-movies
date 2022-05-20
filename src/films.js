@@ -20,16 +20,59 @@ function moviesAverageOfDirector(array, director) {
 }
 
 // Exercise 4:  Alphabetic order by title
-function orderAlphabetically(array) {}
+function orderAlphabetically(array) {
+  const sortedMovies = [...array].sort((movieA, movieB) => {
+    return movieA.title === movieB.title
+      ? 0
+      : movieA.title > movieB.title
+      ? 1
+      : -1;
+  });
+  return sortedMovies
+    .filter((movie, idx) => idx < 20)
+    .map((movie) => movie.title);
+}
 
 // Exercise 5: Order by year, ascending
-function orderByYear() {}
+function orderByYear(array) {
+  return [...array].sort((movieA, movieB) => {
+    const sortByTitle =
+      movieA.title === movieB.title ? 0 : movieA.title > movieB.title ? 1 : -1;
+
+    return movieA.year === movieB.year
+      ? sortByTitle
+      : movieA.year > movieB.year
+      ? 1
+      : -1;
+  });
+}
 
 // Exercise 6: Calculate the average of the movies in a category
-function moviesAverageByCategory() {}
+function moviesAverageByCategory(array, genre) {
+  const count = array.filter(
+    (movie) => movie.genre.includes(genre) && movie.score !== ''
+  ).length;
+  const sumOfScores = array.reduce((sum, movie) => {
+    return movie.genre.includes(genre) ? sum + movie.score : null;
+  }, 0);
+  return sumOfScores / count;
+}
 
 // Exercise 7: Modify the duration of movies to minutes
-function hoursToMinutes() {}
+function hoursToMinutes(array) {
+  let captureLetters = /[a-z]/gi;
+  arrayCopy = [...array];
+  const newArr = [...array].map((movie) =>
+    movie.duration.replace(captureLetters, '').split(' ')
+  );
+
+  return arrayCopy.map((movie, idx) => ({
+    ...movie,
+    duration:
+      parseInt(newArr[idx][0]) * 60 +
+      (newArr[idx].length === 2 ? parseInt(newArr[idx][1]) : 0)
+  }));
+}
 
 // Exercise 8: Get the best film of a year
 function bestFilmOfYear() {}
