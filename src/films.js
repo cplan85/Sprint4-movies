@@ -21,14 +21,14 @@ function moviesAverageOfDirector(array, director) {
 
 // Exercise 4:  Alphabetic order by title
 function orderAlphabetically(array) {
-  const sortedMovies = [...array].sort((movieA, movieB) => {
-    return movieA.title === movieB.title
-      ? 0
-      : movieA.title > movieB.title
-      ? 1
-      : -1;
-  });
-  return sortedMovies
+  return [...array]
+    .sort((movieA, movieB) => {
+      return movieA.title === movieB.title
+        ? 0
+        : movieA.title > movieB.title
+        ? 1
+        : -1;
+    })
     .filter((movie, idx) => idx < 20)
     .map((movie) => movie.title);
 }
@@ -60,22 +60,35 @@ function moviesAverageByCategory(array, genre) {
 
 // Exercise 7: Modify the duration of movies to minutes
 function hoursToMinutes(array) {
-  let captureLetters = /[a-z]/gi;
-  arrayCopy = [...array];
-  const newArr = [...array].map((movie) =>
-    movie.duration.replace(captureLetters, '').split(' ')
-  );
+  const twoNumbers = (duration) => {
+    let captureLetters = /[a-z]/gi;
+    return duration.replace(captureLetters, '').split(' ');
+  };
 
-  return arrayCopy.map((movie, idx) => ({
+  return [...array].map((movie) => ({
     ...movie,
     duration:
-      parseInt(newArr[idx][0]) * 60 +
-      (newArr[idx].length === 2 ? parseInt(newArr[idx][1]) : 0)
+      parseInt(twoNumbers(movie.duration)[0]) * 60 +
+      (twoNumbers(movie.duration).length === 2
+        ? parseInt(twoNumbers(movie.duration)[1])
+        : 0)
   }));
 }
 
 // Exercise 8: Get the best film of a year
-function bestFilmOfYear() {}
+function bestFilmOfYear(array, year) {
+  return [
+    array
+      .filter((movie) => movie.year == year)
+      .sort((movieA, movieB) => {
+        return movieA.score === movieB.score
+          ? 0
+          : movieA.score < movieB.score
+          ? 1
+          : -1;
+      })[0]
+  ];
+}
 
 // The following is required to make unit tests work.
 /* Environment setup. Do not modify the below code. */
